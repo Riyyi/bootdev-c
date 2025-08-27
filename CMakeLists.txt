@@ -17,9 +17,6 @@ file(GLOB_RECURSE LIBRARY_SOURCES "vendor/munit/*.c")
 
 add_library(munit ${LIBRARY_SOURCES})
 
-target_include_directories(munit PUBLIC
-    "vendor/munit")
-
 # ------------------------------------------
 # Executable
 
@@ -42,8 +39,8 @@ foreach(LESSON ${LESSONS})
 
     add_executable(${EXE_NAME} ${LESSON_SOURCES})
     target_include_directories(${EXE_NAME} PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/${LESSON}
-        "vendor/munit")
+		${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/${LESSON})
     target_link_libraries(${EXE_NAME} munit)
 
     # Collect all the directory names for the run target
