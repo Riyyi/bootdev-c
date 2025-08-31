@@ -5,3 +5,5 @@
 build/
 
 # Files
+
+.DS_Store

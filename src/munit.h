@@ -6,12 +6,13 @@
 // -----------------------------------------
 // Test suite macros
 
-#define munit_case(NAME, FUNCNAME, BODY)                                   \
+#define munit_case(NAME, FUNCNAME, ...)                                    \
 	static MunitResult FUNCNAME(const MunitParameter params[], void* data) \
 	{                                                                      \
 		(void)params;                                                      \
 		(void)data;                                                        \
-		BODY return MUNIT_OK;                                              \
+		__VA_ARGS__                                                        \
+		return MUNIT_OK;                                                   \
 	}
 
 #define munit_test(NAME, FN) \
@@ -26,9 +27,17 @@
 // -----------------------------------------
 // Overwrite assertion macros, extended with "msg" parameter
 
+#undef munit_assert_int
+#define munit_assert_int(A, OP, B, MSG) \
+	munit_assert_type(int, "d", A, OP, B)
+
+#undef munit_assert_float
+#define munit_assert_float(A, OP, B, MSG) \
+	munit_assert_type(float, "f", A, OP, B)
+
 #undef assert_int
 #define assert_int(A, OP, B, MSG) \
-	munit_assert_int(A, OP, B);
+	munit_assert_int(A, OP, B, MSG);
 
 #undef assert_uint
 #define assert_uint(A, OP, B, MSG) \
@@ -55,3 +64,39 @@
 #undef munit_assert_uint32
 #define munit_assert_uint32(A, OP, B, MSG) \
 	munit_assert_type(munit_uint32_t, PRIu32, A, OP, B)
+
+// string
+
+#undef munit_assert_string_equal
+#define munit_assert_string_equal(A, B, MSG)                                     \
+	do {                                                                         \
+		const char* munit_tmp_a_ = (A);                                          \
+		const char* munit_tmp_b_ = (B);                                          \
+		if (MUNIT_UNLIKELY(strcmp(munit_tmp_a_, munit_tmp_b_) != 0)) {           \
+			munit_errorf("assertion failed: string %s == %s (\"%s\" == \"%s\")", \
+			             #A, #B, munit_tmp_a_, munit_tmp_b_);                    \
+		}                                                                        \
+		MUNIT_PUSH_DISABLE_MSVC_C4127_                                           \
+	} while (0)
+
+#undef assert_string_equal
+#define assert_string_equal(A, B, MSG) munit_assert_string_equal(A, B, MSG)
+
+// null
+
+#undef munit_assert_null
+#define munit_assert_null(PTR, MSG) \
+	munit_assert_ptr(PTR, ==, NULL)
+
+#undef munit_assert_not_null
+#define munit_assert_not_null(PTR, MSG) \
+	munit_assert_ptr(PTR, !=, NULL)
+
+// ptr
+
+#undef assert_ptr_not_null
+#define assert_ptr_not_null(PTR, MSG) munit_assert_not_null(PTR, MSG)
+
+#undef munit_assert_ptr_not_equal
+#define munit_assert_ptr_not_equal(A, B, MSG) \
+	munit_assert_ptr(A, !=, B)
