@@ -43,6 +43,10 @@
 #define assert_uint(A, OP, B, MSG) \
 	munit_assert_uint(A, OP, B);
 
+#undef assert_float
+#define assert_float(A, OP, B, MSG) \
+	munit_assert_float(A, OP, B, MSG);
+
 #undef assert_double
 #define assert_double(A, OP, B, MSG) \
 	munit_assert_double(A, OP, B);
@@ -92,11 +96,17 @@
 #define munit_assert_not_null(PTR, MSG) \
 	munit_assert_ptr(PTR, !=, NULL)
 
-// ptr
+#undef assert_null
+#define assert_null(PTR, MSG) munit_assert_null(PTR, MSG)
 
-#undef assert_ptr_not_null
-#define assert_ptr_not_null(PTR, MSG) munit_assert_not_null(PTR, MSG)
+// ptr
 
 #undef munit_assert_ptr_not_equal
 #define munit_assert_ptr_not_equal(A, B, MSG) \
 	munit_assert_ptr(A, !=, B)
+
+#undef assert_ptr_not_null
+#define assert_ptr_not_null(PTR, MSG) munit_assert_not_null(PTR, MSG)
+
+#undef assert_ptr_equal
+#define assert_ptr_equal(A, B, MSG) munit_assert_ptr_equal(A, B)

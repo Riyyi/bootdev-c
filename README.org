@@ -1,0 +1,207 @@
+#+TITLE: Learn Memory Management in C
+#+AUTHOR: Riyyi
+#+LANGUAGE: en
+#+OPTIONS: toc:nil
+
+Completed course from
+[[https://www.boot.dev/courses/learn-memory-management-c][boot.dev]].
+
+The exercises from the course have been worked out in this repo.
+This is my way of having the "certificate" for free.
+
+If you're reading this with the intention of completing the exercises yourself,
+just remove the directories from the =src= directory and recreate the directory
+with the files from the exercise. Alternatively, just remove the file the
+exercise is asking you to modify as you go.
+
+Note:
+- In chapter 6 exercise 6, macOS malloc will almost never return a NULL pointer
+  due to virtual memory overcommit, so you should check for
+  =size \=\= 1024 * 1024 * 100)= instead of =array \=\= NULL=
+- In chapter 8, I renamed =stack_t= to =my_stack_t= due to =std= naming conflict
+  on macOS
+
+** Build instructions
+
+Compiling and running all the tests can be done with the following commands:
+
+#+BEGIN_SRC sh
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make run
+#+END_SRC
+
+** Output
+
+The first the 3 chapters of the course can be done interactively on the website.
+
+[[./bootdev-c.png]]
+
+Successful output of all the tests:
+
+#+BEGIN_SRC sh
+$ make run                                                                                                                                                                                     12:25PM
+[  3%] Built target munit
+[  8%] Built target 8-6-multiple-types
+[ 11%] Built target 4-1-enums
+[ 14%] Built target 4-2-non-default-values
+[ 17%] Built target 4-3-switch-case
+[ 20%] Built target 4-4-sizeof-enum
+[ 24%] Built target 5-1-union
+[ 26%] Built target 5-2-memory-layout
+[ 29%] Built target 5-3-5-4-union-size
+[ 32%] Built target 5-5-helper-fields
+[ 34%] Built target 6-1-the-stack
+[ 37%] Built target 6-2-why-a-stack
+[ 39%] Built target 6-3-stack-overflow
+[ 42%] Built target 6-4-pointers-to-the-stack
+[ 46%] Built target 6-5-the-heap
+[ 50%] Built target 6-6-malloc
+[ 53%] Built target 6-7-free
+[ 56%] Built target 6-8-big-endian-little-endian
+[ 60%] Built target 7-1-pointer-pointers
+[ 64%] Built target 7-2-array-of-pointers
+[ 67%] Built target 7-3-void-pointers
+[ 71%] Built target 7-4-swapping-integers
+[ 75%] Built target 7-5-swapping-strings
+[ 79%] Built target 7-6-generic-swap
+[ 83%] Built target 8-1-low-level-stack
+[ 87%] Built target 8-2-stack-push
+[ 91%] Built target 8-3-stack-pop
+[ 94%] Built target 8-4-stack-free
+[100%] Built target 8-5-dangerous-push
+Running test suite with seed 0x039ca6b1...
+colors/are_defined                   [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+colors/are_defined_correctly         [ OK    ] [ 0.00000100 / 0.00000100 CPU ]
+2 of 2 (100%) tests successful, 0 (0%) test skipped.
+Running test suite with seed 0xbf68f4fa...
+colors/defined                       [ OK    ] [ 0.00000100 / 0.00000100 CPU ]
+colors/defined_vscode                [ OK    ] [ 0.00000100 / 0.00000000 CPU ]
+2 of 2 (100%) tests successful, 0 (0%) test skipped.
+Running test suite with seed 0x40b17fef...
+http/switch_enum                     [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+http/switch_enum_default             [ OK    ] [ 0.00000100 / 0.00000000 CPU ]
+2 of 2 (100%) tests successful, 0 (0%) test skipped.
+The size of BigNumbers is 8 bytes
+The size of HttpErrorCode is 4 bytes
+Running test suite with seed 0xde548fa9...
+format/integer                       [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+format/string                        [ OK    ] [ 0.00000100 / 0.00000100 CPU ]
+format/integer_nvim                  [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+format/string_nvim                   [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+4 of 4 (100%) tests successful, 0 (0%) test skipped.
+value (set): -420
+err (unset): 4294966876
+value (unset): -1
+err (set): 4294967295
+Running test suite with seed 0xa7197940...
+PacketHeader/test_packet_header_size [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+PacketHeader/test_tcp_header_fields  [ OK    ] [ 0.00000100 / 0.00000100 CPU ]
+PacketHeader/test_field_raw_size     [ OK    ] [ 0.00000000 / 0.00000100 CPU ]
+PacketHeader/test_field_to_raw_consistency[ OK    ] [ 0.00000100 / 0.00000100 CPU ]
+4 of 4 (100%) tests successful, 0 (0%) test skipped.
+---------------------------------                                                                                                                                                                        Stack pointer offset: 0 bytes
+---------------------------------
+Dark mode?
+---------------------------------
+Stack pointer offset: 0 bytes
+---------------------------------
+More like...
+
+---------------------------------
+Stack pointer offset: 0 bytes
+---------------------------------
+dark roast.
+Running test suite with seed 0x7dcfad3b...
+/example/compare                     [ OK    ] [ 0.00000100 / 0.00000000 CPU ]
+/example/rand                        [ OK    ] [ 0.00000100 / 0.00000000 CPU ]
+/example/parameters
+  foo=one, bar=red                   [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+  foo=one, bar=green                 [ OK    ] [ 0.00000200 / 0.00000300 CPU ]
+  foo=one, bar=blue                  [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+  foo=two, bar=red                   [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+  foo=two, bar=green                 [ OK    ] [ 0.00000200 / 0.00000200 CPU ]                                                                                                                             foo=two, bar=blue                  [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+  foo=three, bar=red                 [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+  foo=three, bar=green               [ OK    ] [ 0.00000200 / 0.00000100 CPU ]
+  foo=three, bar=blue                [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+11 of 11 (100%) tests successful, 0 (0%) test skipped.
+Size of pool: 10240
+Initial string: snek
+c1: 10, 20
+c2: 30, 40
+c3: 50, 60                                                                                                                                                                                               Running test suite with seed 0x53c7e720...
+get_full_greeting/test_basic_greeting[ OK    ] [ 0.00000200 / 0.00000300 CPU ]
+get_full_greeting/test_short_buffer  [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+2 of 2 (100%) tests successful, 0 (0%) test skipped.
+Running test suite with seed 0xee42ee28...
+allocate_scalar_array/test_allocate_scalar_array_size[ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+allocate_scalar_array/test_allocate_scalar_array_values[ OK    ] [ 0.00000200 / 0.00000100 CPU ]
+allocate_scalar_array/test_allocate_scalar_array_zero_multiplier[ OK    ] [ 0.00000200 / 0.00000100 CPU ]
+allocate_scalar_array/test_allocate_too_much[ OK    ] [ 0.00001000 / 0.00000900 CPU ]
+4 of 4 (100%) tests successful, 0 (0%) test skipped.                                                                                                                                                     Allocated 500 lists
+Running test suite with seed 0x9d78388e...
+/example/compare                     [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+/example/rand                        [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+/example/parameters
+  foo=one, bar=red                   [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+  foo=one, bar=green                 [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+  foo=one, bar=blue                  [ OK    ] [ 0.00000200 / 0.00000100 CPU ]
+  foo=two, bar=red                   [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+  foo=two, bar=green                 [ OK    ] [ 0.00000200 / 0.00000000 CPU ]                                                                                                                             foo=two, bar=blue                  [ OK    ] [ 0.00000200 / 0.00000100 CPU ]
+  foo=three, bar=red                 [ OK    ] [ 0.00000100 / 0.00000100 CPU ]
+  foo=three, bar=green               [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+  foo=three, bar=blue                [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+11 of 11 (100%) tests successful, 0 (0%) test skipped.
+Running test suite with seed 0x07fdd526...
+allocate_list/create                 [ OK    ] [ 0.00000100 / 0.00000000 CPU ]
+allocate_list/overwrite              [ OK    ] [ 0.00000100 / 0.00000100 CPU ]                                                                                                                           2 of 2 (100%) tests successful, 0 (0%) test skipped.
+Running test suite with seed 0xf26a30e1...
+create_token_pointer_array/test_create_token_pointer_array_single[ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+create_token_pointer_array/test_create_token_pointer_array_multiple[ OK    ] [ 0.00000300 / 0.00000200 CPU ]
+create_token_pointer_array/test_create_token_pointer_array_memory_allocation[ OK    ] [ 0.00000200 / 0.00000300 CPU ]
+3 of 3 (100%) tests successful, 0 (0%) test skipped.
+Running test suite with seed 0x4c18af41...
+snek_zero_out/test_zero_out_integer  [ OK    ] [ 0.00000100 / 0.00000100 CPU ]
+snek_zero_out/test_zero_out_float    [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+snek_zero_out/test_zero_out_bool     [ OK    ] [ 0.00000100 / 0.00000000 CPU ]                                                                                                                           snek_zero_out/test_zero_out_nonzero_values[ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+4 of 4 (100%) tests successful, 0 (0%) test skipped.
+Running test suite with seed 0xb0750720...
+void-pointer/swap_ints               [ OK    ] [ 0.00000100 / 0.00000100 CPU ]
+void-pointer/swap_ints_same          [ OK    ] [ 0.00000100 / 0.00000100 CPU ]
+2 of 2 (100%) tests successful, 0 (0%) test skipped.
+Running test suite with seed 0xc10a0ca0...
+void-pointer/swap_str                [ OK    ] [ 0.00000100 / 0.00000100 CPU ]
+void-pointer/test_swap_str_long      [ OK    ] [ 0.00000100 / 0.00000100 CPU ]
+2 of 2 (100%) tests successful, 0 (0%) test skipped.                                                                                                                                                     Running test suite with seed 0xa27e09af...
+swap/generic_ints                    [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+swap/generic_strings                 [ OK    ] [ 0.00000200 / 0.00000100 CPU ]
+swap/generic_struct                  [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+3 of 3 (100%) tests successful, 0 (0%) test skipped.
+Running test suite with seed 0xd1be93bf...
+snekstack/create_stack_small         [ OK    ] [ 0.00000100 / 0.00000000 CPU ]
+snekstack/create_stack_large         [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+2 of 2 (100%) tests successful, 0 (0%) test skipped.                                                                                                                                                     Running test suite with seed 0x92735306...
+snekstack/create_stack               [ OK    ] [ 0.00000200 / 0.00000100 CPU ]
+snekstack/push_stack                 [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+snekstack/push_double_capacity       [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+3 of 3 (100%) tests successful, 0 (0%) test skipped.
+Running test suite with seed 0xd641eade...
+snekstack/create_stack               [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+snekstack/push_stack                 [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+snekstack/pop_stack                  [ OK    ] [ 0.00000200 / 0.00000100 CPU ]
+snekstack/pop_stack_empty            [ OK    ] [ 0.00000200 / 0.00000100 CPU ]
+4 of 4 (100%) tests successful, 0 (0%) test skipped.
+Running test suite with seed 0xd1d1136d...
+snekstack/create_stack               [ OK    ] [ 0.00000200 / 0.00000100 CPU ]
+snekstack/push_stack                 [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+snekstack/pop_stack                  [ OK    ] [ 0.00000200 / 0.00000200 CPU ]
+3 of 3 (100%) tests successful, 0 (0%) test skipped.
+Running test suite with seed 0x5493a18d...
+snekstack/heterogenous_stack         [ OK    ] [ 0.00000100 / 0.00000200 CPU ]
+1 of 1 (100%) tests successful, 0 (0%) test skipped.
+Running test suite with seed 0x0dc3c3f9...
+snekstack/multiple_types_stack       [ OK    ] [ 0.00000300 / 0.00000200 CPU ]
+1 of 1 (100%) tests successful, 0 (0%) test skipped.
+[100%] Built target run
+#+END_SRC
