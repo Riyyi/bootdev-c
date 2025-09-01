@@ -1,3 +1,4 @@
+#define MUNIT_ENABLE_ASSERT_ALIASES
 #include "../vendor/munit/munit.h"
 
 // TJ seems to have added a bunch of macros to the default munit.h,
@@ -99,6 +100,9 @@
 #undef assert_null
 #define assert_null(PTR, MSG) munit_assert_null(PTR, MSG)
 
+#undef assert_not_null
+#define assert_not_null(PTR, MSG) munit_assert_not_null(PTR, MSG)
+
 // ptr
 
 #undef munit_assert_ptr_not_equal
@@ -107,6 +111,10 @@
 
 #undef assert_ptr
 #define assert_ptr(A, OP, B, MSG) munit_assert_ptr(A, OP, B)
+
+#undef assert_ptr_null
+#define assert_ptr_null(PTR, MSG) munit_assert_ptr_null(PTR)
+// https://github.com/nemequ/munit/pull/73/files
 
 #undef assert_ptr_not_null
 #define assert_ptr_not_null(PTR, MSG) munit_assert_not_null(PTR, MSG)
