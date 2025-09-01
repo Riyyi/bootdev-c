@@ -17,9 +17,13 @@ exercise is asking you to modify as you go.
 Note:
 - In chapter 6 exercise 6, macOS malloc will almost never return a NULL pointer
   due to virtual memory overcommit, so you should check for
-  =size \=\= 1024 * 1024 * 100)= instead of =array \=\= NULL=
-- In chapter 8, I renamed =stack_t= to =my_stack_t= due to =std= naming conflict
-  on macOS
+  ~size == 1024 * 1024 * 100)~ instead of ~array == NULL~
+- In chapter 8, I renamed ~stack_t~ to ~my_stack_t~ due to a =std= naming
+  conflict on macOS
+
+The first the 3 chapters of the course can be done interactively on the website.
+
+[[./bootdev-c.png]]
 
 ** Build instructions
 
@@ -33,10 +37,6 @@ $ make run
 #+END_SRC
 
 ** Output
-
-The first the 3 chapters of the course can be done interactively on the website.
-
-[[./bootdev-c.png]]
 
 Successful output of all the tests:
 
