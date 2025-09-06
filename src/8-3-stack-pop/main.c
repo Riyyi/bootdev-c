@@ -1,4 +1,4 @@
-// #include "bootlib.h"
+#include "bootlib.h"
 #include "munit.h"
 #include "snekstack.h"
 
@@ -37,11 +37,11 @@ munit_case(RUN, pop_stack, {
 	assert_null(popped, "No remaining elements");
 
 	// Clean up our allocated data.
-	free(s->data);
-	free(s);
+	boot_free(s->data);
+	boot_free(s);
 
 	// Should be nothing left that is allocated.
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 munit_case(SUBMIT, pop_stack_empty, {
@@ -56,11 +56,11 @@ munit_case(SUBMIT, pop_stack_empty, {
 	assert_null(popped, "Should return null when popping an empty stack");
 
 	// Clean up our allocated data.
-	free(s->data);
-	free(s);
+	boot_free(s->data);
+	boot_free(s);
 
 	// Should be nothing left that is allocated.
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 munit_case(RUN, push_stack, {
@@ -84,11 +84,11 @@ munit_case(RUN, push_stack, {
 	assert_int(s->count, ==, 3, "3 elements in the stack");
 
 	// Clean up our allocated data.
-	free(s->data);
-	free(s);
+	boot_free(s->data);
+	boot_free(s);
 
 	// Should be nothing left that is allocated.
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 munit_case(RUN, create_stack, {
@@ -98,11 +98,11 @@ munit_case(RUN, create_stack, {
 	assert_ptr_not_null(s->data, "Allocates the stack data");
 
 	// Clean up our allocated data.
-	free(s->data);
-	free(s);
+	boot_free(s->data);
+	boot_free(s);
 
 	// Should be nothing left that is allocated.
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 

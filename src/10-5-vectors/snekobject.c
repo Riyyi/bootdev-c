@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "bootlib.h"
 #include "snekobject.h"
 
 snek_object_t *_new_snek_object();
@@ -31,7 +32,7 @@ void refcount_free(snek_object_t *obj)
 	case FLOAT:
 		break;
 	case STRING:
-		free(obj->data.v_string);
+		boot_free(obj->data.v_string);
 		break;
 	case VECTOR3: {
 		refcount_dec(obj->data.v_vector3.x);
@@ -43,7 +44,7 @@ void refcount_free(snek_object_t *obj)
 		assert(false);
 	}
 
-	free(obj);
+	boot_free(obj);
 }
 
 // don't touch below this line
@@ -69,7 +70,7 @@ void refcount_dec(snek_object_t *obj) {
 }
 
 snek_object_t *_new_snek_object() {
-	snek_object_t *obj = calloc(1, sizeof(snek_object_t));
+	snek_object_t *obj = boot_calloc(1, sizeof(snek_object_t));
 	if (obj == NULL) {
 		return NULL;
 	}
@@ -85,9 +86,9 @@ snek_object_t *new_snek_array(size_t size) {
 		return NULL;
 	}
 
-	snek_object_t **elements = calloc(size, sizeof(snek_object_t *));
+	snek_object_t **elements = boot_calloc(size, sizeof(snek_object_t *));
 	if (elements == NULL) {
-		free(obj);
+		boot_free(obj);
 		return NULL;
 	}
 
@@ -126,9 +127,9 @@ snek_object_t *new_snek_string(char *value) {
 	}
 
 	int len = strlen(value);
-	char *dst = malloc(len + 1);
+	char *dst = boot_malloc(len + 1);
 	if (dst == NULL) {
-		free(obj);
+		boot_free(obj);
 		return NULL;
 	}
 

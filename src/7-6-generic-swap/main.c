@@ -1,4 +1,4 @@
-// #include "bootlib.h"
+#include "bootlib.h"
 #include "munit.h"
 
 #include "exercise.h"
@@ -18,7 +18,7 @@ munit_case(RUN, test_generic_ints, {
 
 	assert_int(i1, ==, 5678, "i1 should be i2's original value");
 	assert_int(i2, ==, 1234, "i2 should be i1's original value");
-	// assert_true(boot_all_freed());
+	assert_true(boot_all_freed());
 });
 
 munit_case(RUN, test_generic_strings, {
@@ -28,7 +28,7 @@ munit_case(RUN, test_generic_strings, {
 	swap(&s1, &s2, sizeof(char *));
 	assert_string_equal(s1, "adam", "s1 should be s2's original value");
 	assert_string_equal(s2, "dax", "s2 should be s1's original value");
-	// assert_true(boot_all_freed());
+	assert_true(boot_all_freed());
 });
 
 munit_case(SUBMIT, test_generic_structs, {

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 
+#include "bootlib.h"
 #include "munit.h"
 #include "snekobject.h"
 
@@ -7,8 +8,8 @@ munit_case(RUN, test_positive, {
 	snek_object_t *obj = new_snek_float(42);
 	assert_float(obj->data.v_float, ==, 42, "Must accept positive values");
 
-	free(obj);
-	// assert(boot_all_freed());
+	boot_free(obj);
+	assert(boot_all_freed());
 });
 
 munit_case(SUBMIT, test_zero, {
@@ -17,8 +18,8 @@ munit_case(SUBMIT, test_zero, {
 	assert_float(obj->kind, ==, FLOAT, "Must set type to FLOAT");
 	assert_float(obj->data.v_float, ==, 0.0, "Must accept 0.0");
 
-	free(obj);
-	// assert(boot_all_freed());
+	boot_free(obj);
+	assert(boot_all_freed());
 });
 
 munit_case(SUBMIT, test_negative, {
@@ -27,8 +28,8 @@ munit_case(SUBMIT, test_negative, {
 	assert_float(obj->kind, ==, FLOAT, "Must set type to FLOAT");
 	assert_float(obj->data.v_float, ==, -5.0, "Must accept negative numbers");
 
-	free(obj);
-	// assert(boot_all_freed());
+	boot_free(obj);
+	assert(boot_all_freed());
 });
 
 int main() {

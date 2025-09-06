@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+#include "bootlib.h"
 #include "snekstack.h"
 
 void *stack_pop(my_stack_t *stack) {
@@ -15,7 +16,7 @@ void *stack_pop(my_stack_t *stack) {
 void stack_push(my_stack_t *stack, void *obj) {
 	if (stack->count == stack->capacity) {
 		stack->capacity *= 2;
-		void **temp = realloc(stack->data, stack->capacity * sizeof(void *));
+		void **temp = boot_realloc(stack->data, stack->capacity * sizeof(void *));
 		if (temp == NULL) {
 			stack->capacity /= 2;
 
@@ -29,16 +30,16 @@ void stack_push(my_stack_t *stack, void *obj) {
 }
 
 my_stack_t *stack_new(size_t capacity) {
-	my_stack_t *stack = malloc(sizeof(my_stack_t));
+	my_stack_t *stack = boot_malloc(sizeof(my_stack_t));
 	if (stack == NULL) {
 		return NULL;
 	}
 
 	stack->count = 0;
 	stack->capacity = capacity;
-	stack->data = malloc(stack->capacity * sizeof(void *));
+	stack->data = boot_malloc(stack->capacity * sizeof(void *));
 	if (stack->data == NULL) {
-		free(stack);
+		boot_free(stack);
 		return NULL;
 	}
 

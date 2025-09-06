@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// #include "bootlib.h"
+#include "bootlib.h"
 #include "munit.h"
 #include "snekobject.h"
 
@@ -12,11 +12,11 @@ munit_case(RUN, test_array_set, {
 	snek_array_set(array, 0, foo);
 	assert_int(foo->refcount, ==, 2, "foo is now referenced by array");
 
-	// assert(!boot_is_freed(foo));
+	assert(!boot_is_freed(foo));
 
 	refcount_dec(foo);
 	refcount_dec(array);
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 munit_case(SUBMIT, test_array_free, {
@@ -33,17 +33,17 @@ munit_case(SUBMIT, test_array_free, {
 
 	// `foo` is stil referenced in the `array`, so it should not be freed.
 	refcount_dec(foo);
-	// assert(!boot_is_freed(foo));
+	assert(!boot_is_freed(foo));
 
 	// Overwrite index 0, which is `foo`, with `baz`.
 	//	Now `foo` is not referenced by `array`, so it should be freed.
 	snek_array_set(array, 0, baz);
-	// assert(boot_is_freed(foo));
+	assert(boot_is_freed(foo));
 
 	refcount_dec(bar);
 	refcount_dec(baz);
 	refcount_dec(array);
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 munit_case(RUN, test_vector3_refcounting, {
@@ -58,27 +58,27 @@ munit_case(RUN, test_vector3_refcounting, {
 
 	// `foo` is stil referenced in the `vec`, so it should not be freed.
 	refcount_dec(foo);
-	// assert(!boot_is_freed(foo));
+	assert(!boot_is_freed(foo));
 
 	refcount_dec(vec);
-	// assert(boot_is_freed(foo));
+	assert(boot_is_freed(foo));
 
 	// These are still alive, they have the original reference still.
-	// assert(!boot_is_freed(bar));
-	// assert(!boot_is_freed(baz));
+	assert(!boot_is_freed(bar));
+	assert(!boot_is_freed(baz));
 
 	// Decrement the last reference to the objects, so they will be freed.
 	refcount_dec(bar);
 	refcount_dec(baz);
 
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 munit_case(RUN, test_int_has_refcount, {
 	snek_object_t *obj = new_snek_integer(10);
 	assert_int(obj->refcount, ==, 1, "Refcount should be 1 on creation");
 
-	free(obj);
+	boot_free(obj);
 });
 
 munit_case(RUN, test_inc_refcount, {
@@ -88,7 +88,7 @@ munit_case(RUN, test_inc_refcount, {
 	refcount_inc(obj);
 	assert_int(obj->refcount, ==, 2, "Refcount should be incremented");
 
-	free(obj);
+	boot_free(obj);
 });
 
 munit_case(RUN, test_dec_refcount, {
@@ -100,10 +100,10 @@ munit_case(RUN, test_dec_refcount, {
 	refcount_dec(obj);
 	assert_int(obj->refcount, ==, 1, "Refcount should be decremented");
 
-	// assert(!boot_is_freed(obj));
+	assert(!boot_is_freed(obj));
 
 	// Object is still alive, so we will free manually.
-	free(obj);
+	boot_free(obj);
 });
 
 munit_case(RUN, test_refcount_free_is_called, {
@@ -116,8 +116,8 @@ munit_case(RUN, test_refcount_free_is_called, {
 	assert_int(obj->refcount, ==, 1, "Refcount should be decremented");
 
 	refcount_dec(obj);
-	// assert(boot_is_freed(obj));
-	// assert(boot_all_freed());
+	assert(boot_is_freed(obj));
+	assert(boot_all_freed());
 });
 
 munit_case(RUN, test_allocated_string_is_freed, {
@@ -131,8 +131,8 @@ munit_case(RUN, test_allocated_string_is_freed, {
 	assert_string_equal(obj->data.v_string, "Hello @wagslane!", "references str");
 
 	refcount_dec(obj);
-	// assert(boot_is_freed(obj));
-	// assert(boot_all_freed());
+	assert(boot_is_freed(obj));
+	assert(boot_all_freed());
 });
 
 int main() {

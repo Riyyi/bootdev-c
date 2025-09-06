@@ -1,4 +1,4 @@
-// #include "bootlib.h"
+#include "bootlib.h"
 #include "munit.h"
 #include "snekstack.h"
 
@@ -9,11 +9,11 @@ munit_case(RUN, create_stack, {
 	assert_ptr_not_null(s->data, "Allocates the stack data");
 
 	// Clean up our allocated data.
-	free(s->data);
-	free(s);
+	boot_free(s->data);
+	boot_free(s);
 
 	// Should be nothing left that is allocated.
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 munit_case(RUN, push_stack, {
@@ -34,11 +34,11 @@ munit_case(RUN, push_stack, {
 	assert_ptr_equal(s->data[0], &a, "element inserted into stack");
 
 	// Clean up our allocated data.
-	free(s->data);
-	free(s);
+	boot_free(s->data);
+	boot_free(s);
 
 	// Should be nothing left that is allocated.
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 munit_case(SUBMIT, push_double_capacity, {
@@ -62,14 +62,14 @@ munit_case(SUBMIT, push_double_capacity, {
 	assert_int(s->count, ==, 3, "3 elements in the stack");
 
 	// Should reallocate memory.
-	// assert_int_equal(boot_realloc_count(), 1, "Must reallocate memory for stack");
+	assert_int_equal(boot_realloc_count(), 1, "Must reallocate memory for stack");
 
 	// Clean up our allocated data.
-	free(s->data);
-	free(s);
+	boot_free(s->data);
+	boot_free(s);
 
 	// Should be nothing left that is allocated.
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 
+#include "bootlib.h"
 #include "munit.h"
 #include "snekobject.h"
 
@@ -9,9 +10,9 @@ munit_case(RUN, test_create_empty_array, {
 	assert_int(obj->kind, ==, ARRAY, "Must set type to ARRAY");
 	assert_int(obj->data.v_array.size, ==, 2, "Must set size to 2");
 
-	free(obj->data.v_array.elements);
-	free(obj);
-	// assert(boot_all_freed());
+	boot_free(obj->data.v_array.elements);
+	boot_free(obj);
+	assert(boot_all_freed());
 });
 
 munit_case(SUBMIT, test_used_calloc, {
@@ -20,9 +21,9 @@ munit_case(SUBMIT, test_used_calloc, {
 	assert_ptr_null(obj->data.v_array.elements[0], "Should use calloc");
 	assert_ptr_null(obj->data.v_array.elements[1], "Should use calloc");
 
-	free(obj->data.v_array.elements);
-	free(obj);
-	// assert(boot_all_freed());
+	boot_free(obj->data.v_array.elements);
+	boot_free(obj);
+	assert(boot_all_freed());
 });
 
 int main() {

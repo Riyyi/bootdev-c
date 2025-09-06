@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "bootlib.h"
 #include "snekobject.h"
 
 void refcount_dec(snek_object_t *obj) {
@@ -14,11 +15,11 @@ void refcount_dec(snek_object_t *obj) {
 void refcount_free(snek_object_t *obj) {
 	if (obj == NULL) return;
 	if (obj->kind == INTEGER || obj->kind == FLOAT) {
-		free(obj);
+		boot_free(obj);
 	}
 	if (obj->kind == STRING) {
-		free(obj->data.v_string);
-		free(obj);
+		boot_free(obj->data.v_string);
+		boot_free(obj);
 	}
 }
 
@@ -34,7 +35,7 @@ void refcount_inc(snek_object_t *obj) {
 }
 
 snek_object_t *_new_snek_object() {
-	snek_object_t *obj = calloc(1, sizeof(snek_object_t));
+	snek_object_t *obj = boot_calloc(1, sizeof(snek_object_t));
 	if (obj == NULL) {
 		return NULL;
 	}
@@ -50,9 +51,9 @@ snek_object_t *new_snek_array(size_t size) {
 		return NULL;
 	}
 
-	snek_object_t **elements = calloc(size, sizeof(snek_object_t *));
+	snek_object_t **elements = boot_calloc(size, sizeof(snek_object_t *));
 	if (elements == NULL) {
-		free(obj);
+		boot_free(obj);
 		return NULL;
 	}
 
@@ -109,9 +110,9 @@ snek_object_t *new_snek_string(char *value) {
 	}
 
 	int len = strlen(value);
-	char *dst = malloc(len + 1);
+	char *dst = boot_malloc(len + 1);
 	if (dst == NULL) {
-		free(obj);
+		boot_free(obj);
 		return NULL;
 	}
 

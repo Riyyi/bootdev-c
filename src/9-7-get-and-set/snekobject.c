@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "bootlib.h"
 #include "snekobject.h"
 
 bool snek_array_set(snek_object_t *snek_obj, size_t index, snek_object_t *value) {
@@ -24,14 +25,14 @@ snek_object_t *snek_array_get(snek_object_t *snek_obj, size_t index) {
 // don't touch below this line
 
 snek_object_t *new_snek_array(size_t size) {
-	snek_object_t *obj = malloc(sizeof(snek_object_t));
+	snek_object_t *obj = boot_malloc(sizeof(snek_object_t));
 	if (obj == NULL) {
 		return NULL;
 	}
 
-	snek_object_t **elements = calloc(size, sizeof(snek_object_t *));
+	snek_object_t **elements = boot_calloc(size, sizeof(snek_object_t *));
 	if (elements == NULL) {
-		free(obj);
+		boot_free(obj);
 		return NULL;
 	}
 
@@ -47,7 +48,7 @@ snek_object_t *new_snek_vector3(
 		return NULL;
 	}
 
-	snek_object_t *obj = malloc(sizeof(snek_object_t));
+	snek_object_t *obj = boot_malloc(sizeof(snek_object_t));
 	if (obj == NULL) {
 		return NULL;
 	}
@@ -59,7 +60,7 @@ snek_object_t *new_snek_vector3(
 }
 
 snek_object_t *new_snek_integer(int value) {
-	snek_object_t *obj = malloc(sizeof(snek_object_t));
+	snek_object_t *obj = boot_malloc(sizeof(snek_object_t));
 	if (obj == NULL) {
 		return NULL;
 	}
@@ -70,7 +71,7 @@ snek_object_t *new_snek_integer(int value) {
 }
 
 snek_object_t *new_snek_float(float value) {
-	snek_object_t *obj = malloc(sizeof(snek_object_t));
+	snek_object_t *obj = boot_malloc(sizeof(snek_object_t));
 	if (obj == NULL) {
 		return NULL;
 	}
@@ -81,15 +82,15 @@ snek_object_t *new_snek_float(float value) {
 }
 
 snek_object_t *new_snek_string(char *value) {
-	snek_object_t *obj = malloc(sizeof(snek_object_t));
+	snek_object_t *obj = boot_malloc(sizeof(snek_object_t));
 	if (obj == NULL) {
 		return NULL;
 	}
 
 	int len = strlen(value);
-	char *dst = malloc(len + 1);
+	char *dst = boot_malloc(len + 1);
 	if (dst == NULL) {
-		free(obj);
+		boot_free(obj);
 		return NULL;
 	}
 

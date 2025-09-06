@@ -1,4 +1,4 @@
-// #include "bootlib.h"
+#include "bootlib.h"
 #include "munit.h"
 #include "snekstack.h"
 
@@ -8,10 +8,10 @@ munit_case(RUN, create_stack_small, {
 	assert_int(s->count, ==, 0, "No elements in the stack yet");
 	assert_ptr_not_null(s->data, "Allocates the stack data");
 
-	free(s->data);
-	free(s);
+	boot_free(s->data);
+	boot_free(s);
 
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 munit_case(SUBMIT, create_stack_large, {
@@ -20,10 +20,10 @@ munit_case(SUBMIT, create_stack_large, {
 	assert_int(s->count, ==, 0, "No elements in the stack yet");
 	assert_ptr_not_null(s->data, "Allocates the stack data");
 
-	free(s->data);
-	free(s);
+	boot_free(s->data);
+	boot_free(s);
 
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 int main() {

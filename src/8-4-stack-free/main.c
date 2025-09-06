@@ -1,4 +1,4 @@
-// #include "bootlib.h"
+#include "bootlib.h"
 #include "munit.h"
 #include "snekstack.h"
 
@@ -37,7 +37,7 @@ munit_case(RUN, pop_stack, {
 	assert_null(popped, "No remaining elements");
 
 	stack_free(s);
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 munit_case(RUN, push_stack, {
@@ -61,7 +61,7 @@ munit_case(RUN, push_stack, {
 	assert_int(s->count, ==, 3, "3 elements in the stack");
 
 	stack_free(s);
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 munit_case(RUN, create_stack, {
@@ -71,7 +71,7 @@ munit_case(RUN, create_stack, {
 	assert_ptr_not_null(s->data, "Allocates the stack data");
 
 	stack_free(s);
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 int main() {

@@ -1,5 +1,7 @@
+#include <stdbool.h>
 #include <stdlib.h>
 
+#include "bootlib.h"
 #include "munit.h"
 #include "snekobject.h"
 
@@ -21,12 +23,14 @@ munit_case(RUN, test_str_copied, {
 	);
 
 	// Should allocate memory for the string with null terminator.
-	// assert_int_equal(boot_alloc_size(), 22, "Must allocate memory for string");
+	bool is_32_bit = sizeof(void *) == 4;
+	int allocated = 14 + (is_32_bit ? 8 : 16); // pointers are larger on x64
+	assert_int_equal(boot_alloc_size(), allocated, "Must allocate memory for string");
 
 	// Free the string, and then free the object.
-	free(obj->data.v_string);
-	free(obj);
-	// assert(boot_all_freed());
+	boot_free(obj->data.v_string);
+	boot_free(obj);
+	assert(boot_all_freed());
 });
 
 int main() {

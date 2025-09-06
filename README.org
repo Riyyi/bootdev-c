@@ -13,11 +13,14 @@ The first the 3 chapters of the course can be done interactively on the website.
 [[./bootdev-c.png]]
 
 If you're reading this with the intention of completing the exercises yourself,
-just remove the directories from the =src= directory and recreate the directory
-with the files from the exercise. Alternatively, just remove the file the
-exercise is asking you to modify as you go.
+you can find each exercise is in its own directory inside of the =src= directory.
+Remove all the files that are not called =main.c= and recreate them from the
+exercises on the boot.dev website as you go through them, so you won't get spoiled.
 
 Note:
+- In order to verify allocations in the unit tests, please use the wrapper
+  functions =boot_malloc=, =boot_calloc=, =boot_realloc= and =boot_free= from
+  =boot_lib.h= instead of the =stdlib.h= allocation functions
 - In chapter 6 exercise 6, macOS malloc will almost never return a NULL pointer
   due to virtual memory overcommit, so you should check for
   ~size == 1024 * 1024 * 100)~ instead of ~array == NULL~

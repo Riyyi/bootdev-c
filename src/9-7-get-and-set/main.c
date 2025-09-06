@@ -1,5 +1,6 @@
 #include <stdlib.h>
 
+#include "bootlib.h"
 #include "munit.h"
 #include "snekobject.h"
 
@@ -25,12 +26,12 @@ munit_case(RUN, test_array, {
 	assert_int(retrieved_second->kind, ==, INTEGER, "Should be a integer");
 	assert_ptr(second, ==, retrieved_second, "Should be the same object");
 
-	free(first->data.v_string);
-	free(first);
-	free(second);
-	free(obj->data.v_array.elements);
-	free(obj);
-	// assert(boot_all_freed());
+	boot_free(first->data.v_string);
+	boot_free(first);
+	boot_free(second);
+	boot_free(obj->data.v_array.elements);
+	boot_free(obj);
+	assert(boot_all_freed());
 });
 
 munit_case(RUN, test_set_outside_bounds, {
@@ -46,11 +47,11 @@ munit_case(RUN, test_set_outside_bounds, {
 	assert_false(snek_array_set(obj, 100, outside));
 
 	// Free memory
-	free(outside->data.v_string);
-	free(outside);
-	free(obj->data.v_array.elements);
-	free(obj);
-	// assert(boot_all_freed());
+	boot_free(outside->data.v_string);
+	boot_free(outside);
+	boot_free(obj->data.v_array.elements);
+	boot_free(obj);
+	assert(boot_all_freed());
 });
 
 munit_case(SUBMIT, test_get_outside_bounds, {
@@ -62,11 +63,11 @@ munit_case(SUBMIT, test_get_outside_bounds, {
 	// Outside of bound
 	assert_null(snek_array_get(obj, 1), "Should not access outside the array");
 
-	free(first->data.v_string);
-	free(first);
-	free(obj->data.v_array.elements);
-	free(obj);
-	// assert(boot_all_freed());
+	boot_free(first->data.v_string);
+	boot_free(first);
+	boot_free(obj->data.v_array.elements);
+	boot_free(obj);
+	assert(boot_all_freed());
 });
 
 int main() {

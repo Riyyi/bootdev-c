@@ -1,9 +1,10 @@
 #include <stdlib.h>
 
+#include "bootlib.h"
 #include "snekobject.h"
 
 snek_object_t *new_snek_float(float value) {
-	snek_object_t *obj = (snek_object_t *)malloc(sizeof(snek_object_t));
+	snek_object_t *obj = (snek_object_t *)boot_malloc(sizeof(snek_object_t));
 	if (obj == NULL) return NULL;
 	obj->kind = FLOAT;
 	obj->data.v_float = value;
@@ -13,7 +14,7 @@ snek_object_t *new_snek_float(float value) {
 // don't touch below this line
 
 snek_object_t *new_snek_integer(int value) {
-	snek_object_t *obj = malloc(sizeof(snek_object_t));
+	snek_object_t *obj = boot_malloc(sizeof(snek_object_t));
 	if (obj == NULL) {
 		return NULL;
 	}

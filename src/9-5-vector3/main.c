@@ -1,5 +1,6 @@
 #include <stdlib.h>
 
+#include "bootlib.h"
 #include "munit.h"
 #include "snekobject.h"
 
@@ -8,7 +9,7 @@ munit_case(RUN, test_returns_null, {
 
 	assert_null(vec, "Should return null when input is null");
 
-	// assert(boot_all_freed());
+	assert(boot_all_freed());
 });
 
 
@@ -31,11 +32,11 @@ munit_case(RUN, test_vec_multiple_objects, {
 	assert_int(vec->data.v_vector3.z->data.v_int, ==, 3, "should have correct z");
 
 	// Free all of our objects.
-	free(x);
-	free(y);
-	free(z);
-	free(vec);
-	// assert(boot_all_freed());
+	boot_free(x);
+	boot_free(y);
+	boot_free(z);
+	boot_free(vec);
+	assert(boot_all_freed());
 });
 
 munit_case(SUBMIT, test_vec_same_object, {
@@ -62,9 +63,9 @@ munit_case(SUBMIT, test_vec_same_object, {
 	assert_int(vec->data.v_vector3.z->data.v_int, ==, 2, "should have correct z");
 
 	// Free all of our objects.
-	free(i);
-	free(vec);
-	// assert(boot_all_freed());
+	boot_free(i);
+	boot_free(vec);
+	assert(boot_all_freed());
 });
 
 int main() {

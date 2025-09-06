@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// #include "bootlib.h"
+#include "bootlib.h"
 #include "munit.h"
 #include "snekobject.h"
 
@@ -9,7 +9,7 @@ munit_case(RUN, test_int_has_refcount, {
 	snek_object_t *obj = new_snek_integer(10);
 	assert_int(obj->refcount, ==, 1, "Refcount should be 1 on creation");
 
-	free(obj);
+	boot_free(obj);
 });
 
 munit_case(RUN, test_inc_refcount, {
@@ -19,7 +19,7 @@ munit_case(RUN, test_inc_refcount, {
 	refcount_inc(obj);
 	assert_int(obj->refcount, ==, 2, "Refcount should be incremented");
 
-	free(obj);
+	boot_free(obj);
 });
 
 munit_case(RUN, test_dec_refcount, {
@@ -31,10 +31,10 @@ munit_case(RUN, test_dec_refcount, {
 	refcount_dec(obj);
 	assert_int(obj->refcount, ==, 1, "Refcount should be decremented");
 
-	// assert(!boot_is_freed(obj));
+	assert(!boot_is_freed(obj));
 
 	// Object is still alive, so we will free manually.
-	free(obj);
+	boot_free(obj);
 });
 
 munit_case(SUBMIT, test_refcount_free_is_called, {
@@ -47,8 +47,8 @@ munit_case(SUBMIT, test_refcount_free_is_called, {
 	assert_int(obj->refcount, ==, 1, "Refcount should be decremented");
 
 	refcount_dec(obj);
-	// assert(boot_is_freed(obj));
-	// assert(boot_all_freed());
+	assert(boot_is_freed(obj));
+	assert(boot_all_freed());
 });
 
 munit_case(SUBMIT, test_allocated_string_is_freed, {
@@ -62,8 +62,8 @@ munit_case(SUBMIT, test_allocated_string_is_freed, {
 	assert_string_equal(obj->data.v_string, "Hello @wagslane!", "references str");
 
 	refcount_dec(obj);
-	// assert(boot_is_freed(obj));
-	// assert(boot_all_freed());
+	assert(boot_is_freed(obj));
+	assert(boot_all_freed());
 });
 
 int main() {

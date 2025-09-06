@@ -1,3 +1,5 @@
+#pragma once
+
 #define MUNIT_ENABLE_ASSERT_ALIASES
 #include "../vendor/munit/munit.h"
 
@@ -39,6 +41,9 @@
 #undef assert_int
 #define assert_int(A, OP, B, MSG) \
 	munit_assert_int(A, OP, B, MSG);
+
+#define assert_int_equal(A, B, MSG) \
+	munit_assert_int(A, ==, B, MSG);
 
 #undef assert_uint
 #define assert_uint(A, OP, B, MSG) \

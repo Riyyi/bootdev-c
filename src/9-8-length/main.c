@@ -1,3 +1,4 @@
+#include "bootlib.h"
 #include "munit.h"
 #include "snekobject.h"
 
@@ -5,16 +6,16 @@ munit_case(RUN, test_integer, {
 	snek_object_t *obj = new_snek_integer(42);
 	assert_int(snek_length(obj), ==, 1, "Integers are length 1");
 
-	free(obj);
-	// assert(boot_all_freed());
+	boot_free(obj);
+	assert(boot_all_freed());
 });
 
 munit_case(RUN, test_float, {
 	snek_object_t *obj = new_snek_float(3.14);
 	assert_int(snek_length(obj), ==, 1, "Floats are length 1");
 
-	free(obj);
-	// assert(boot_all_freed());
+	boot_free(obj);
+	assert(boot_all_freed());
 });
 
 munit_case(RUN, test_string, {
@@ -26,11 +27,11 @@ munit_case(RUN, test_string, {
 			snek_length(longer), ==, strlen("hello, world"), "Should use strlen"
 	);
 
-	free(shorter->data.v_string);
-	free(shorter);
-	free(longer->data.v_string);
-	free(longer);
-	// assert(boot_all_freed());
+	boot_free(shorter->data.v_string);
+	boot_free(shorter);
+	boot_free(longer->data.v_string);
+	boot_free(longer);
+	assert(boot_all_freed());
 });
 
 munit_case(SUBMIT, test_vector3, {
@@ -38,9 +39,9 @@ munit_case(SUBMIT, test_vector3, {
 	snek_object_t *vec = new_snek_vector3(i, i, i);
 	assert_int(snek_length(vec), ==, 3, "Vec3 always has length 3");
 
-	free(i);
-	free(vec);
-	// assert(boot_all_freed());
+	boot_free(i);
+	boot_free(vec);
+	assert(boot_all_freed());
 });
 
 munit_case(SUBMIT, test_array, {
@@ -52,10 +53,10 @@ munit_case(SUBMIT, test_array, {
 
 	assert_int(snek_length(arr), ==, 4, "Length of array should be its size");
 
-	free(i);
-	free(arr->data.v_array.elements);
-	free(arr);
-	// assert(boot_all_freed());
+	boot_free(i);
+	boot_free(arr->data.v_array.elements);
+	boot_free(arr);
+	assert(boot_all_freed());
 });
 
 int main() {

@@ -33,13 +33,14 @@ foreach(LESSON ${LESSONS})
     if(NOT LESSON_SOURCES)
         continue()
     endif()
+    list(APPEND LESSON_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/bootlib.c)
 
     # Get last directory name of the path to use as exe
     get_filename_component(EXE_NAME ${LESSON} NAME)
 
     add_executable(${EXE_NAME} ${LESSON_SOURCES})
     target_include_directories(${EXE_NAME} PRIVATE
-		${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}/${LESSON})
     target_link_libraries(${EXE_NAME} munit)
 
