@@ -57,7 +57,7 @@ void *boot_realloc(void* ptr, size_t size)
 	return create_allocation(allocated, size);
 }
 
-void boot_free (void *ptr)
+void boot_free(void *ptr)
 {
 	if (ptr == NULL) return;
 
